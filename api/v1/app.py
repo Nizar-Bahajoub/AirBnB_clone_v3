@@ -1,3 +1,5 @@
+#§/usr/bin/python3
+"""Flask App updated"""
 from os import getenv
 from flask import Flask
 from models import storage
