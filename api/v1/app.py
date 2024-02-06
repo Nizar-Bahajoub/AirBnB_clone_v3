@@ -10,9 +10,16 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 
 
-@app.teardown_appcontext
+@app.teardown_appcontexti
 def close(execption):
+    """Close storage engine"""
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """handles a cosutom 404 response"""
+    return jsonify({"error": "Not found"}), 404
 
 
 if __name__ == "__main__":
