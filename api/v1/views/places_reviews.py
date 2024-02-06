@@ -10,6 +10,7 @@ from models.review import Review
 @app_views.route('/places/<place_id>/reviews',
                  methods=['GET'], strict_slashes=False)
 def get_reviews_by_place(place_id):
+    """Get reviews"""
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
@@ -20,6 +21,7 @@ def get_reviews_by_place(place_id):
 @app_views.route('/reviews/<review_id>',
                  methods=['GET'], strict_slashes=False)
 def get_review(review_id):
+    """Get reviex by id"""
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
@@ -29,6 +31,7 @@ def get_review(review_id):
 @app_views.route('/reviews/<review_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_review(review_id):
+    """Delete review"""
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
@@ -40,6 +43,7 @@ def delete_review(review_id):
 @app_views.route('/places/<place_id>/reviews',
                  methods=['POST'], strict_slashes=False)
 def create_review(place_id):
+    """Add review"""
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
@@ -62,6 +66,7 @@ def create_review(place_id):
 @app_views.route('/reviews/<review_id>',
                  methods=['PUT'], strict_slashes=False)
 def update_review(review_id):
+    """Update reviews"""
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
