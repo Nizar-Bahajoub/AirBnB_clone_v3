@@ -11,7 +11,7 @@ app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
-def teardown_hundler():
+def close(execption):
     storage.close()
 
 
