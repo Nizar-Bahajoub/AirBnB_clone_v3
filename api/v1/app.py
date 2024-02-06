@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Flask App updated"""
 from os import getenv
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 
@@ -10,15 +10,13 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 
 
-@app.teardown_appcontexti
+@app.teardown_appcontext
 def close(execption):
-    """Close storage engine"""
     storage.close()
 
 
 @app.errorhandler(404)
 def not_found(error):
-    """handles a cosutom 404 response"""
     return jsonify({"error": "Not found"}), 404
 
 
