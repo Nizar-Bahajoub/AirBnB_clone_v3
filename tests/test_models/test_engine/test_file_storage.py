@@ -72,7 +72,7 @@ class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_all_returns_dict(self):
-        """Test that all returns the FileStorage.__objects attr"""
+        """Test if all returns the FileStorage.__objects attr"""
         storage = FileStorage()
         new_dict = storage.all()
         self.assertEqual(type(new_dict), dict)
@@ -80,7 +80,7 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_new(self):
-        """test that new adds an object to the FileStorage.__objects attr"""
+        """test if new adds an object to the FileStorage.__objects attr"""
         storage = FileStorage()
         save = FileStorage._FileStorage__objects
         FileStorage._FileStorage__objects = {}
@@ -96,7 +96,7 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_save(self):
-        """Test that save properly saves objects to file.json"""
+        """Testing if save saves objects to file.json"""
         storage = FileStorage()
         new_dict = {}
         for key, value in classes.items():
@@ -113,3 +113,33 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """Testing get method"""
+        from models import storage
+        new_state = State()
+        new_state_id = new_state.id
+        storage.new(new_state)
+        storage.save()
+        self.assertTrue(new_state in storage.all().values())
+        hold = storage.get(State, new_state_id)
+        self.assertEqual(new_state, hold)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """Testing count """
+        from models import storage
+        initial_count = len(storage.all())
+        initial_state_count = len(storage.all(State))
+        method_count = storage.count()
+        state_count = storage.count(State)
+        self.assertEqual(initial_count, method_count)
+        self.assertEqual(state_count, initial_state_count)
+        new_state = State()
+        storage.new(new_state)
+        storage.save()
+        method_count = storage.count()
+        state_count = storage.count(State)
+        self.assertEqual(initial_count + 1, method_count)
+        self.assertEqual(initial_state_count + 1, state_count)
