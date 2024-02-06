@@ -14,8 +14,8 @@ def status():
 def stats_count():
     stats = {}
     class_names = {"Amenity": "amenities", "City": "cities",
-                    "Place": "places", "Review": "reviews",
-                    "State": "states", "User": "users"}
+                   "Place": "places", "Review": "reviews",
+                   "State": "states", "User": "users"}
 
     for class_name in class_names:
         stats[class_names[class_name]] = storage.count(class_name)
